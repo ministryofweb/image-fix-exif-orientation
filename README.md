@@ -7,6 +7,10 @@ This library rotates an image according to the orientation info stored in its Ex
 - PHP 7.1+ compiled with `--enable-exif`
 - at least one of the GD or IMagick extensions
 
+## License
+
+This library is licensed under the MIT License.
+
 ## Installation
 
 ``` shell
