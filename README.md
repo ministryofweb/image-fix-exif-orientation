@@ -47,8 +47,7 @@ $fixer = new Gd(90);
 //$fixer = new ImageMagick(90);
 
 // (3) initialize output class, in this case we write to a temporary file
-// in the file system; alternatively getting the image data as a string is
-// also possible
+// in the file system; getting the image data as a string is also possible
 $output = new Filesystem(tempnam(sys_get_temp_dir(), 'ministryofweb-exif-fix') . '.jpg');
 //$output = new ImageString();
 
@@ -58,7 +57,7 @@ $fixer = new OrientationFixer($fixer, $output);
 // (5) fix the image
 $fixer->fix($image);
 
-echo "Fixed image: " . $output->getFile() . PHP_EOL;
+echo 'Fixed image: ' . $output->getFile() . PHP_EOL;
 ```
 
 ## Development
