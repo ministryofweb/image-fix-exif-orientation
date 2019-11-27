@@ -1,6 +1,6 @@
 {
     "name": "ministryofweb/image-fix-exif-orientation",
-    "description": "Rotates an image based on its orientation stored in Exif data",
+    "description": "Automatically rotates an image based on its orientation stored in Exif data. Supports GD and ImageMagick/IMagick.",
     "keywords": [
         "exif",
         "image",
@@ -11,7 +11,7 @@
         "fix",
         "gd",
         "imagemagick",
-        "imagick"
+        "ext-imagick"
     ],
     "type": "library",
     "license": "MIT",

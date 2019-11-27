@@ -1,6 +1,6 @@
 # Automatically Fix Image Orientation
 
-This library rotates an image according to the orientation info stored in its Exif data.
+This library automatically rotates an image based on its orientation stored in Exif data. Supports GD and ImageMagick/IMagick.
 
 ## Requirements
 
