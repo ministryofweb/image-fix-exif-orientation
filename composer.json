@@ -11,7 +11,7 @@
         "fix",
         "gd",
         "imagemagick",
-        "ext-imagick"
+        "imagick"
     ],
     "type": "library",
     "license": "MIT",
