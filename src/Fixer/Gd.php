@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MinistryOfWeb\ImageFixExifOrientation\Fixer;
 
 use MinistryOfWeb\ImageFixExifOrientation\Image;
-use MinistryOfWeb\ImageFixExifOrientation\Output\OutputInterface;
 use RuntimeException;
 
 class Gd implements FixerInterface
@@ -24,12 +23,14 @@ class Gd implements FixerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      *
      * @throws RuntimeException when the image manipulation failed
      */
     public function fixOrientation(Image $image): string
     {
+        ini_set('display_errors', '1');
+
         $imageResource = imagecreatefromjpeg($image->getImageFile());
         $orientation = $image->getExifOrientation();
 
@@ -40,35 +41,46 @@ class Gd implements FixerInterface
                 // do nothing, everything is fine already
                 break;
             case 2:
+                /** @psalm-suppress UndefinedConstant */
                 $success = imageflip($imageResource, IMG_FLIP_HORIZONTAL);
+
                 break;
             case 3:
                 $imageResource = imagerotate($imageResource, 180, 0);
+
                 break;
             case 4:
+                /** @psalm-suppress UndefinedConstant */
                 $success = imageflip($imageResource, IMG_FLIP_VERTICAL);
+
                 break;
             case 5:
+                /** @psalm-suppress UndefinedConstant */
                 $success = imageflip($imageResource, IMG_FLIP_HORIZONTAL);
                 if (true === $success) {
                     $imageResource = imagerotate($imageResource, 90, 0);
                 }
+
                 break;
             case 6:
                 $imageResource = imagerotate($imageResource, -90, 0);
+
                 break;
             case 7:
+                /** @psalm-suppress UndefinedConstant */
                 $success = imageflip($imageResource, IMG_FLIP_HORIZONTAL);
                 if ($success) {
                     $imageResource = imagerotate($imageResource, -90, 0);
                 }
+
                 break;
             case 8:
                 $imageResource = imagerotate($imageResource, 90, 0);
+
                 break;
         }
 
-        if (!is_resource($imageResource) || false === $success) {
+        if (!$this->isValidImage($imageResource) || false === $success) {
             throw new RuntimeException('Cannot transform image', 7654091860);
         }
 
@@ -79,5 +91,26 @@ class Gd implements FixerInterface
         imagedestroy($imageResource);
 
         return $imageData;
+    }
+
+    /**
+     * @param resource|\GdImage $image
+     * @return bool
+     *
+     * @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection
+     * @psalm-suppress RedundantConditionGivenDocblockType
+     * @psalm-suppress UndefinedClass
+     */
+    private function isValidImage($image): bool
+    {
+        if (is_resource($image)) {
+            return true;
+        }
+
+        if (class_exists(\GdImage::class) && $image instanceof \GdImage) {
+            return true;
+        }
+
+        return false;
     }
 }
