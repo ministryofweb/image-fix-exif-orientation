@@ -4,7 +4,7 @@ This library automatically rotates an image based on its orientation stored in E
 
 ## Requirements
 
-- PHP 7.1+ compiled with `--enable-exif`
+- PHP 7.3+ compiled with `--enable-exif`
 - at least one of the GD or IMagick extensions
 
 ## License
